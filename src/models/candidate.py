@@ -1,0 +1,14 @@
+from langchain_core.pydantic_v1 import BaseModel, Field
+from typing import Optional
+
+class Candidate(BaseModel):
+    l: Optional[str] = Field(default=None, description="INSERT BRAND NAME FROM THE RECEIPT OCR TEXT. IF NOT PRESENT RETURN null")
+    total_cost: Optional[str] = Field(default=None, description="INSERT TOTAL COST FROM THE RECEIPT OCR TEXT. TOTAL AMOUNT IS MAXIMUM VALUE IN THE OCR TEXT. IF NOT PRESENT RETURN null")
+    location: Optional[str] = Field(default=None, description="INSERT LOCATION FROM THE RECEIPT OCR TEXT. IF NOT PRESENT RETURN null")
+    purchase_category: Optional[str] = Field(default=None, description="INSERT PURCHASE CATEGORY FROM THE RECEIPT OCR TEXT. IF NOT PRESENT RETURN null")
+    brand_category: Optional[str] = Field(default=None, description="""INSERT BRAND CATEGORY FROM THE RECEIPT OCR TEXT. CHOOSE CLOSEST BRAND CATEGORY BASED ON THE OCR FROM THIS ARRAY ["Fashion and Apparel","Jewelry and Watches","Beauty and Personal Care","Automobiles","Real Estate","Travel and Leisure","Culinary Services","Home and Lifestyle","Technology and Electronics","Sports and Leisure","Art and Collectibles","Health and Wellness","Stationery and Writing Instruments","Children and Baby","Pet Accessories","Financial Services","Airline Services","Accommodation Services","Beverages Services","Services"] ELSE IF NOT PRESENT RETURN null""")
+    Date: Optional[str] = Field(default=None, description="INSERT RECEIPT DATE FROM THE RECEIPT OCR TEXT. IF NOT PRESENT RETURN null. FORMAT: dd-mm-yyyy")
+    currency: Optional[str] = Field(default=None, description="INSERT CURRENCY FROM THE RECEIPT OCR TEXT. LOOK FOR CURRENCY SYMBOLS (e.g., $, €, £, ¥) OR CURRENCY CODES (e.g., USD, EUR, GBP, JPY).ALWAYS RETURN CURRENCY CODE.IF NOT FOUND RETURN null.")
+    filename: Optional[str] = Field(default=None, description="GENERATE A FILENAME BASED ON THE RECEIPT OCR TEXT. USE THE FORMAT: 'PURCHASE_TYPE_BRAND_DATE' (e.g., 'clothing_gucci_20230715'). USE UNDERSCORES FOR SPACES.IF YOU CANNOT FIND THE COMPONENTS RETURN THIS FIELD AS NULL.")
+    payment_method: Optional[str] = Field(default=None, description="INSERT PAYMENT METHOD FROM THE RECEIPT OCR TEXT. LOOK FOR KEYWORDS LIKE 'CASH', 'CARD', 'CREDIT', 'DEBIT', 'VISA', 'MASTERCARD', 'AMEX', 'PAYPAL', ETC. IF NOT FOUND RETURN null.")
+    metadata:Optional[str] = Field(default=None, description="For metadata field, return a json which gives summary of the receipt.Only consider the insurance receipt, return metadata json with fields like insurance_number, insurance_expiry, agent_details etc. metadata field will have only a json object strictly that summarize the receipt contents provided , if not a insurane receipt add it as null. ")
